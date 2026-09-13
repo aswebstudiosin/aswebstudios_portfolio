@@ -1,0 +1,5 @@
+const http=require('http');const fs=require('fs');const path=require('path');
+const root=__dirname;const port=process.env.PORT||3000;
+const types={'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.pdf':'application/pdf','.svg':'image/svg+xml'};
+const server=http.createServer((req,res)=>{try{let raw=decodeURIComponent((req.url||'/').split('?')[0]);let requested=raw==='/'?'/index.html':raw;let file=path.normalize(path.join(root,requested));if(!file.startsWith(root)){res.writeHead(403);return res.end('Forbidden')}fs.stat(file,(err,st)=>{if(err||!st.isFile()){res.writeHead(404);return res.end('Not Found')}res.writeHead(200,{'Content-Type':types[path.extname(file).toLowerCase()]||'application/octet-stream','Cache-Control':'no-cache'});fs.createReadStream(file).pipe(res)});}catch(e){res.writeHead(500);res.end('Server Error')}});
+server.listen(port,()=>console.log(`AS Web Studio portfolio running at http://localhost:${port}`));

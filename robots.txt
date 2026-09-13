@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aswebstudios.github.io/aswebstudios_portfolio/sitemap.xml
